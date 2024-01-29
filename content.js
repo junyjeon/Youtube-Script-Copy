@@ -49,8 +49,6 @@ console.log("timestamp/content.js");
     } else {
       console.error("자막 세그먼트 컨테이너를 찾을 수 없습니다.");
     }
-  } else {
-    console.error("스크립트 표시 버튼을 찾을 수 없습니다.");
   }
 })();
 
