@@ -1,9 +1,13 @@
 console.log("timestamp/content.js");
 
 (function () {
-  const scriptButton = document.querySelector(
-    "button.yt-spec-button-shape-next"
+  const primaryButtonContainer = document.getElementById("primary-button");
+  const scriptButton = primaryButtonContainer.querySelector(
+    ".yt-spec-button-shape-next"
   );
+  // const scriptButton = document.querySelector(
+  //   'button[aria-label="스크립트 표시"]'
+  // );
 
   console.log(scriptButton);
   if (scriptButton) {
@@ -66,5 +70,5 @@ function processTranscriptSegments(transcriptSegments) {
 
   // console.log(subtitles);
   console.log(subtitlesText);
-  chrome.runtime.sendMessage({ subtitles: subtitlesText, textOnly: textOnly });
+  chrome.runtime.sendMessage({ subtitles: subtitlesText });
 }
