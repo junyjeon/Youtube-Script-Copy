@@ -37,7 +37,6 @@ console.log("timestamp/content.js");
         );
         if (transcriptSegments.length > 0) {
           processTranscriptSegments(transcriptSegments);
-          // 더 이상의 변화를 감시할 필요가 없으므로 observer를 해제합니다.
           obs.disconnect();
         }
       });
@@ -62,5 +61,11 @@ function processTranscriptSegments(transcriptSegments) {
     return { time, text };
   });
 
+  // 자막 데이터를 문자열로 변환합니다.
+  let subtitlesText = subtitles
+    .map((sub) => `${sub.time} ${sub.text}`)
+    .join("\n");
+
   console.log(subtitles);
+  chrome.runtime.sendMessage({ subtitles: subtitlesText });
 }
