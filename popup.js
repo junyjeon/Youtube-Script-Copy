@@ -12,3 +12,16 @@ document.getElementById("copyButton").addEventListener("click", () => {
     );
   });
 });
+
+chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+  if (message.subtitles) {
+    navigator.clipboard
+      .writeText(message.subtitles)
+      .then(() => {
+        console.log("자막이 클립보드에 복사되었습니다.");
+      })
+      .catch((err) => {
+        console.error("클립보드에 복사하는데 실패했습니다.", err);
+      });
+  }
+});
