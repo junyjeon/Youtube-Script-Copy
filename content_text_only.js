@@ -2,7 +2,7 @@ console.log("timestamp/content.js");
 
 (function () {
   const scriptButton = document.querySelector(
-    "button.yt-spec-button-shape-next"
+    'button.yt-spec-button-shape-next[aria-label="스크립트 표시"]'
   );
 
   console.log(scriptButton);
@@ -55,18 +55,10 @@ console.log("timestamp/content.js");
 })();
 
 function processTranscriptSegments(transcriptSegments) {
-  let subtitles = Array.from(transcriptSegments).map((segment) => {
-    const time = segment.querySelector(".segment-timestamp").textContent.trim();
-    const text = segment.querySelector(".segment-text").textContent.trim();
-    return { time, text };
-  });
-
-  // 자막 데이터를 문자열로 변환합니다.
-  let subtitlesText = subtitles
-    .map((sub) => `${sub.time} ${sub.text}`)
+  let subtitlesText = Array.from(transcriptSegments)
+    .map((segment) => segment.querySelector(".segment-text").textContent.trim())
     .join("\n");
 
-  // console.log(subtitles);
   console.log(subtitlesText);
-  chrome.runtime.sendMessage({ subtitles: subtitlesText, textOnly: textOnly });
+  chrome.runtime.sendMessage({ subtitles: subtitlesText });
 }

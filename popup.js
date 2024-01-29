@@ -13,6 +13,21 @@ document.getElementById("copyButton").addEventListener("click", () => {
   });
 });
 
+document.getElementById("copyTextOnlyButton").addEventListener("click", () => {
+  console.log("copyTextOnlyButton clicked");
+  chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+    chrome.scripting.executeScript(
+      {
+        target: { tabId: tabs[0].id },
+        files: ["content_text_only.js"],
+      },
+      () => {
+        console.log("content_text_only.js executed");
+      }
+    );
+  });
+});
+
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
   if (message.subtitles) {
     navigator.clipboard
