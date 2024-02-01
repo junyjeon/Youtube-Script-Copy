@@ -2,8 +2,28 @@
 <html>
   <head>
     <title>Copy YouTube Script</title>
+    <style>
+      /* 패딩과 마진을 제거하여 iframe 주변의 여백을 없앱니다. */
+      body,
+      html {
+        margin: 0;
+        padding: 0;
+        overflow: hidden; /* 스크롤바가 생기지 않도록 처리 */
+      }
+      /* iframe 스타일을 조정합니다. */
+      #chatFrame {
+        width: 100%; /* 전체 너비를 사용하도록 설정 */
+        height: 100vh; /* 전체 높이를 사용하도록 설정 */
+        border: none; /* 테두리 제거 */
+      }
+    </style>
   </head>
   <body>
+    <iframe
+      id="chatFrame"
+      src="https://chat.openai.com"
+      style="width: 400px; height: 500px"
+    ></iframe>
     <button id="copyButton">Copy Script</button>
     <button id="copyTextOnlyButton">Copy Text Only</button>
     <script src="popup.js"></script>
