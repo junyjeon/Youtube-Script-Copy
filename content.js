@@ -56,8 +56,10 @@ console.log("timestamp/content.js");
   }
 })();
 
+let subtitles = []; // 전역 변수로 subtitles 선언
+
 function processTranscriptSegments(transcriptSegments) {
-  let subtitles = Array.from(transcriptSegments).map((segment) => {
+  subtitles = Array.from(transcriptSegments).map((segment) => {
     const time = segment.querySelector(".segment-timestamp").textContent.trim();
     const text = segment.querySelector(".segment-text").textContent.trim();
     return { time, text };
@@ -72,3 +74,34 @@ function processTranscriptSegments(transcriptSegments) {
   console.log(subtitlesText);
   chrome.runtime.sendMessage({ subtitles: subtitlesText });
 }
+
+function copyPartText(partIndex) {
+  // 자막 데이터를 파트별로 분할
+  const partSize = 15000; // 한 파트당 문자 수
+  let subtitlesText = subtitles
+    .map((sub) => `${sub.time} ${sub.text}`)
+    .join("\n");
+
+  // 파트 인덱스에 따라 해당하는 텍스트 추출
+  const partText = subtitlesText.substring(
+    partIndex * partSize,
+    (partIndex + 1) * partSize
+  );
+
+  // 추출된 텍스트를 클립보드에 복사
+  navigator.clipboard
+    .writeText(partText)
+    .then(() => {
+      console.log(`Part ${partIndex + 1} copied to clipboard`);
+    })
+    .catch((err) => {
+      console.error("Failed to copy text to clipboard", err);
+    });
+}
+
+// 메시지 리스너 추가
+chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
+  if (message.action === "copyPartText") {
+    copyPartText(message.partIndex);
+  }
+});
